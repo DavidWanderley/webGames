@@ -1,7 +1,10 @@
+require('dotenv').config();
+
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
-const steamKey = process.env.REACT_APP_API_KEY;
+
+const steamKey = process.env.STEAM_API_KEY;
 
 const app = express();
 const PORT = 3001; 
