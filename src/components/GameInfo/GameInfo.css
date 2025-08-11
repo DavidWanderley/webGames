@@ -44,3 +44,62 @@
 .game-info a:hover {
   text-decoration: underline;
 }
+
+.game-info .achievements-container {
+  margin-top: 30px;
+}
+
+.game-info .achievements-container h2 {
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  color: #222;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+}
+
+.game-info .achievements-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
+  list-style: none;
+  padding: 0;
+}
+
+.game-info .achievements-list li {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  transition: box-shadow 0.3s ease;
+  cursor: default;
+}
+
+.game-info .achievements-list li:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.game-info .achievements-list img {
+  width: 40px;
+  height: 40px;
+  margin-right: 12px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.game-info .achievement-info {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.95em;
+  color: #333;
+}
+
+.game-info .achievement-name {
+  font-weight: 600;
+}
+
+.game-info .achievement-desc {
+  font-size: 0.85em;
+  color: #666;
+}
