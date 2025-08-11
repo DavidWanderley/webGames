@@ -22,9 +22,9 @@ export function Header() {
           <Link to="/meusjogos">
             <button>Meus Jogos</button>
           </Link>
-          <Link to="/Publicacoes">
+          {/* <Link to="/Publicacoes">
             <button>Publicações</button>
-          </Link>
+          </Link> */}
           <Link to="/sobre">
             <button>Sobre</button>
           </Link>

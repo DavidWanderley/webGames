@@ -13,9 +13,9 @@ export function Home() {
 
       <section className="cta-section">
         <h2>Ultimas Publicações!</h2>
-        <button onClick={() => (window.location.href = "/publicacoes")}>
+        {/* <button onClick={() => (window.location.href = "/publicacoes")}>
           Ver Publicações
-        </button>
+        </button> */}
       </section>
 
       <section>
