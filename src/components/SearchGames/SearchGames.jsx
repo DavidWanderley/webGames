@@ -1,20 +1,31 @@
 import "./SearchGames.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GameCard } from "../GameCard/GameCard";
+import { useSteamId } from "../../contexts/SteamIdContext";
 
 export function SearchGames() {
   const [games, setGames] = useState([]);
-  const [inputId, setInputId] = useState("");
   const [pesquisou, setPesquisou] = useState(false);
+  const { steamId, setSteamId } = useSteamId();
+  const [orderOption, setOrderOption] = useState("default");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [gamesPerPage, setGamesPerPage] = useState(24);
 
-  const buscarPorId = () => {
-    if (inputId.trim() === "") return;
-    const url = `http://localhost:3001/games?steamid=${inputId.trim()}`;
+  const [inputId, setInputId] = useState("");
 
-    fetch(url)
+
+  useEffect(() => {
+    if (steamId) {
+      buscarPorId(steamId);
+    }
+  }, [steamId]);
+
+  const buscarPorId = (id) => {
+    if (!id.trim()) return;
+    fetch(`http://localhost:3001/games?steamid=${id.trim()}`)
       .then((res) => res.json())
       .then((data) => {
-        if (data && data.response && data.response.games) {
+        if (data?.response?.games) {
           setGames(data.response.games);
         } else {
           setGames([]);
@@ -23,8 +34,6 @@ export function SearchGames() {
       })
       .catch((err) => console.error("Erro ao buscar jogos:", err));
   };
-
-  const [orderOption, setOrderOption] = useState("default");
 
   const ordenarJogos = (games) => {
     switch (orderOption) {
@@ -39,9 +48,6 @@ export function SearchGames() {
     }
   };
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [gamesPerPage, setGamesPerPage] = useState(24);
-
   const totalGames = ordenarJogos(games).length;
   const totalPages = Math.ceil(totalGames / gamesPerPage);
 
@@ -54,7 +60,7 @@ export function SearchGames() {
 
   const renderPageButtons = () => {
     const pageButtons = [];
-    const maxVisiblePages = 5; 
+    const maxVisiblePages = 5;
 
     const startPage = Math.max(1, currentPage - 2);
     const endPage = Math.min(totalPages, currentPage + 2);
@@ -105,10 +111,10 @@ export function SearchGames() {
         <input
           type="text"
           placeholder="Digite o seu SteamID"
-          value={inputId}
-          onChange={(e) => setInputId(e.target.value)}
+          value={steamId}
+          onChange={(e) => setSteamId(e.target.value)}
         />
-        <button onClick={buscarPorId}>Buscar</button>
+        <button onClick={() => buscarPorId(steamId)}>Buscar</button>
       </div>
 
       {pesquisou && (
@@ -117,7 +123,8 @@ export function SearchGames() {
 
           <div className="filter-container">
             <label>Ordenar por:</label>
-            <select className="order-select"
+            <select
+              className="order-select"
               value={orderOption}
               onChange={(e) => setOrderOption(e.target.value)}
             >
@@ -130,12 +137,13 @@ export function SearchGames() {
 
           <div className="filter-container">
             <label htmlFor="itemsPerPage">Itens por página: </label>
-            <select className="order-select"
+            <select
+              className="order-select"
               id="itemsPerPage"
               value={gamesPerPage}
               onChange={(e) => {
                 setGamesPerPage(Number(e.target.value));
-                setCurrentPage(1); 
+                setCurrentPage(1);
               }}
             >
               <option value={24}>24</option>
@@ -150,7 +158,10 @@ export function SearchGames() {
       {!pesquisou && (
         <>
           <p className="intro-text">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam quidem facilis qui deserunt. Tempore recusandae dolore, ipsa ad earum suscipit. Provident numquam quia ad laboriosam ut dolor cumque, non tempora.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam quidem
+            facilis qui deserunt. Tempore recusandae dolore, ipsa ad earum
+            suscipit. Provident numquam quia ad laboriosam ut dolor cumque, non
+            tempora.
           </p>
           <div className="games-grid">
             <div className="search-game-card">

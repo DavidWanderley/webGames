@@ -5,7 +5,6 @@ import "./GameInfo.css";
 export function GameInfo() {
   const { appid } = useParams();
   const navigate = useNavigate();
-
   const [detalhes, setDetalhes] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -17,7 +16,6 @@ export function GameInfo() {
           `http://localhost:3001/game-details?appid=${appid}`
         );
         const data = await response.json();
-
         if (response.ok && data.success) {
           setDetalhes(data.data);
         } else {
@@ -31,7 +29,6 @@ export function GameInfo() {
         setLoading(false);
       }
     };
-
     fetchDetalhes();
   }, [appid]);
 
@@ -59,11 +56,7 @@ export function GameInfo() {
           {detalhes?.website}
         </a>
       </p>
-      <button
-        onClick={() => {
-          navigate("/meusjogos");
-        }}
-      >
+      <button onClick={() => navigate("/meusjogos")}>
         Voltar
       </button>
     </div>
