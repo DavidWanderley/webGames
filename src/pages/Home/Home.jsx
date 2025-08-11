@@ -24,16 +24,7 @@ export function Home() {
 
       <section className="categories">
         <div className="category-card">
-          <h3>Novidades</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
-            accusamus natus, pariatur dignissimos, fugiat, veritatis minus porro
-            dolorem atque quod cum minima labore nesciunt voluptas quidem
-            incidunt quae quas!.
-          </p>{" "}
-        </div>
-        <div className="category-card">
-          <h3>Populares</h3>
+          <h3>Lorem ipsum</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
             accusamus natus, pariatur dignissimos, fugiat, veritatis minus porro
@@ -42,26 +33,26 @@ export function Home() {
           </p>
         </div>
         <div className="category-card">
-          <h3>Categorias</h3>
+          <h3>Lorem ipsum</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
             accusamus natus, pariatur dignissimos, fugiat, veritatis minus porro
             dolorem atque quod cum minima labore nesciunt voluptas quidem
             incidunt quae quas!.
-          </p>{" "}
+          </p>
+        </div>
+        <div className="category-card">
+          <h3>Lorem ipsum</h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
+            accusamus natus, pariatur dignissimos, fugiat, veritatis minus porro
+            dolorem atque quod cum minima labore nesciunt voluptas quidem
+            incidunt quae quas!.
+          </p>
         </div>
 
         <div className="category-card">
-          <h3>Novidades</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
-            accusamus natus, pariatur dignissimos, fugiat, veritatis minus porro
-            dolorem atque quod cum minima labore nesciunt voluptas quidem
-            incidunt quae quas!.
-          </p>{" "}
-        </div>
-        <div className="category-card">
-          <h3>Populares</h3>
+          <h3>Lorem ipsum</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
             accusamus natus, pariatur dignissimos, fugiat, veritatis minus porro
@@ -70,31 +61,40 @@ export function Home() {
           </p>
         </div>
         <div className="category-card">
-          <h3>Categorias</h3>
+          <h3>Lorem ipsum</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
             accusamus natus, pariatur dignissimos, fugiat, veritatis minus porro
             dolorem atque quod cum minima labore nesciunt voluptas quidem
             incidunt quae quas!.
-          </p>{" "}
+          </p>
         </div>
         <div className="category-card">
-          <h3>Categorias</h3>
+          <h3>Lorem ipsum</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
             accusamus natus, pariatur dignissimos, fugiat, veritatis minus porro
             dolorem atque quod cum minima labore nesciunt voluptas quidem
             incidunt quae quas!.
-          </p>{" "}
+          </p>
         </div>
         <div className="category-card">
-          <h3>Categorias</h3>
+          <h3>Lorem ipsum</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
             accusamus natus, pariatur dignissimos, fugiat, veritatis minus porro
             dolorem atque quod cum minima labore nesciunt voluptas quidem
             incidunt quae quas!.
-          </p>{" "}
+          </p>
+        </div>
+        <div className="category-card">
+          <h3>Lorem ipsum</h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
+            accusamus natus, pariatur dignissimos, fugiat, veritatis minus porro
+            dolorem atque quod cum minima labore nesciunt voluptas quidem
+            incidunt quae quas!.
+          </p>
         </div>
       </section>
     </div>

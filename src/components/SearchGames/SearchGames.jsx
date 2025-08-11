@@ -1,22 +1,25 @@
 import "./SearchGames.css";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { GameCard } from "../GameCard/GameCard";
 import { useSteamId } from "../../contexts/SteamIdContext";
 
 export function SearchGames() {
   const [games, setGames] = useState([]);
   const [pesquisou, setPesquisou] = useState(false);
+
   const { steamId, setSteamId } = useSteamId();
+
+  const [inputSteamId, setInputSteamId] = useState("");
+
+  const [nickname, setNickname] = useState("");
   const [orderOption, setOrderOption] = useState("default");
   const [currentPage, setCurrentPage] = useState(1);
   const [gamesPerPage, setGamesPerPage] = useState(24);
 
-  const [inputId, setInputId] = useState("");
-
-
   useEffect(() => {
     if (steamId) {
       buscarPorId(steamId);
+      buscarNickname(steamId);
     }
   }, [steamId]);
 
@@ -32,7 +35,31 @@ export function SearchGames() {
         }
         setPesquisou(true);
       })
-      .catch((err) => console.error("Erro ao buscar jogos:", err));
+      .catch((err) => {
+        console.error("Erro ao buscar jogos:", err);
+        setGames([]);
+        setPesquisou(true);
+      });
+  };
+
+  const buscarNickname = (steamid) => {
+    if (!steamid.trim()) {
+      setNickname("");
+      return;
+    }
+    fetch(`http://localhost:3001/steam-nickname?steamid=${steamid.trim()}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.success) {
+          setNickname(data.nickname);
+        } else {
+          setNickname("");
+        }
+      })
+      .catch((err) => {
+        console.error("Erro ao buscar nickname:", err);
+        setNickname("");
+      });
   };
 
   const ordenarJogos = (games) => {
@@ -104,17 +131,27 @@ export function SearchGames() {
 
   const todosJogos = games.length;
 
+   const handleBuscar = () => {
+    setSteamId(inputSteamId.trim());
+  };
+
   return (
     <>
-      <h1 className="title">Veja a sua biblioteca da Steam</h1>
+      <h1 className="title">
+        {nickname
+          ? `Biblioteca do usúario: ${nickname}`
+          : "Veja a sua biblioteca da Steam"}
+      </h1>
       <div className="search-box">
         <input
           type="text"
           placeholder="Digite o seu SteamID"
-          value={steamId}
-          onChange={(e) => setSteamId(e.target.value)}
+          value={inputSteamId}
+          onChange={(e) => setInputSteamId(e.target.value)}
         />
-        <button onClick={() => buscarPorId(steamId)}>Buscar</button>
+        <button onClick={() => handleBuscar(inputSteamId.trim())}>
+          Buscar
+        </button>
       </div>
 
       {pesquisou && (

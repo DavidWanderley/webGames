@@ -86,6 +86,37 @@ app.get("/game-details", async (req, res) => {
   }
 });
 
+
+app.get("/steam-nickname", async (req, res) => {
+  const { steamid } = req.query;
+  if (!steamid) {
+    return res.status(400).json({ error: "SteamID é obrigatório" });
+  }
+
+  try {
+    const response = await fetch(
+      `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=${process.env.STEAM_API_KEY}&steamids=${steamid}`
+    );
+    const data = await response.json();
+
+    if (
+      data.response &&
+      data.response.players &&
+      data.response.players.length > 0
+    ) {
+      const player = data.response.players[0];
+      res.json({ success: true, nickname: player.personaname });
+    } else {
+      res.json({ success: false, message: "Jogador não encontrado" });
+    }
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ success: false, message: "Erro ao buscar nickname" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
