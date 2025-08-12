@@ -1,198 +1,57 @@
 import "./SearchGames.css";
-import { useState, useEffect } from "react";
-import { GameCard } from "../GameCard/GameCard";
+import { useState } from "react";
 import { useSteamId } from "../../contexts/SteamIdContext";
+import { useGames } from "./hooks/useGames";
+import { SearchBar } from "./SearchBar";
+import { Filters } from "./Filters";
+import { GamesGrid } from "./GamesGrid";
+import { Pagination } from "./Pagination";
 
 export function SearchGames() {
-  const [games, setGames] = useState([]);
-  const [pesquisou, setPesquisou] = useState(false);
-
   const { steamId, setSteamId } = useSteamId();
-
   const [inputSteamId, setInputSteamId] = useState("");
-
-  const [nickname, setNickname] = useState("");
   const [orderOption, setOrderOption] = useState("default");
   const [currentPage, setCurrentPage] = useState(1);
   const [gamesPerPage, setGamesPerPage] = useState(24);
 
-  useEffect(() => {
-    if (steamId) {
-      buscarPorId(steamId);
-      buscarNickname(steamId);
-    }
-  }, [steamId]);
-
-  const buscarPorId = (id) => {
-    if (!id.trim()) return;
-    fetch(`http://localhost:3001/games?steamid=${id.trim()}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.response?.games) {
-          setGames(data.response.games);
-        } else {
-          setGames([]);
-        }
-        setPesquisou(true);
-      })
-      .catch((err) => {
-        console.error("Erro ao buscar jogos:", err);
-        setGames([]);
-        setPesquisou(true);
-      });
-  };
-
-  const buscarNickname = (steamid) => {
-    if (!steamid.trim()) {
-      setNickname("");
-      return;
-    }
-    fetch(`http://localhost:3001/steam-nickname?steamid=${steamid.trim()}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          setNickname(data.nickname);
-        } else {
-          setNickname("");
-        }
-      })
-      .catch((err) => {
-        console.error("Erro ao buscar nickname:", err);
-        setNickname("");
-      });
-  };
+  const { games, nickname, loading } = useGames(steamId);
 
   const ordenarJogos = (games) => {
     switch (orderOption) {
-      case "A-Z":
-        return [...games].sort((a, b) => a.name.localeCompare(b.name));
-      case "Z-A":
-        return [...games].sort((b, a) => a.name.localeCompare(b.name));
-      case "id":
-        return [...games].sort((a, b) => a.appid - b.appid);
-      default:
-        return games;
+      case "A-Z": return [...games].sort((a, b) => a.name.localeCompare(b.name));
+      case "Z-A": return [...games].sort((b, a) => a.name.localeCompare(b.name));
+      case "id": return [...games].sort((a, b) => a.appid - b.appid);
+      default: return games;
     }
   };
 
-  const totalGames = ordenarJogos(games).length;
-  const totalPages = Math.ceil(totalGames / gamesPerPage);
-
-  const indexOfLastGame = currentPage * gamesPerPage;
-  const indexOfFirstGame = indexOfLastGame - gamesPerPage;
-  const jogosNaPaginaAtual = ordenarJogos(games).slice(
-    indexOfFirstGame,
-    indexOfLastGame
+  const orderedGames = ordenarJogos(games);
+  const totalPages = Math.ceil(orderedGames.length / gamesPerPage);
+  const jogosNaPaginaAtual = orderedGames.slice(
+    (currentPage - 1) * gamesPerPage,
+    currentPage * gamesPerPage
   );
 
-  const renderPageButtons = () => {
-    const pageButtons = [];
-    const maxVisiblePages = 5;
-
-    const startPage = Math.max(1, currentPage - 2);
-    const endPage = Math.min(totalPages, currentPage + 2);
-
-    if (startPage > 1) {
-      pageButtons.push(
-        <button key={1} onClick={() => setCurrentPage(1)}>
-          1
-        </button>
-      );
-      if (startPage > 2) {
-        pageButtons.push(<span key="start-ellipsis">...</span>);
-      }
-    }
-
-    for (let i = startPage; i <= endPage; i++) {
-      pageButtons.push(
-        <button
-          key={i}
-          onClick={() => setCurrentPage(i)}
-          disabled={i === currentPage}
-        >
-          {i}
-        </button>
-      );
-    }
-
-    if (endPage < totalPages) {
-      if (endPage < totalPages - 1) {
-        pageButtons.push(<span key="end-ellipsis">...</span>);
-      }
-      pageButtons.push(
-        <button key={totalPages} onClick={() => setCurrentPage(totalPages)}>
-          {totalPages}
-        </button>
-      );
-    }
-
-    return pageButtons;
-  };
-
-  const todosJogos = games.length;
-
-   const handleBuscar = () => {
+  const handleBuscar = () => {
     setSteamId(inputSteamId.trim());
+    setCurrentPage(1);
   };
 
   return (
     <>
       <h1 className="title">
-        {nickname
-          ? `Biblioteca do usúario: ${nickname}`
-          : "Veja a sua biblioteca da Steam"}
+        {nickname ? `Biblioteca do usuário: ${nickname}` : "Veja a sua biblioteca da Steam"}
       </h1>
-      <div className="search-box">
-        <input
-          type="text"
-          placeholder="Digite o seu SteamID"
-          value={inputSteamId}
-          onChange={(e) => setInputSteamId(e.target.value)}
-        />
-        <button onClick={() => handleBuscar(inputSteamId.trim())}>
-          Buscar
-        </button>
-      </div>
 
-      {pesquisou && (
-        <div className="top-controls">
-          <p className="total-jogos">Total de jogos: {todosJogos}</p>
+      <SearchBar
+        value={inputSteamId}
+        onChange={setInputSteamId}
+        onSearch={handleBuscar}
+      />
 
-          <div className="filter-container">
-            <label>Ordenar por:</label>
-            <select
-              className="order-select"
-              value={orderOption}
-              onChange={(e) => setOrderOption(e.target.value)}
-            >
-              <option value="default">Padrão</option>
-              <option value="A-Z">A-Z</option>
-              <option value="Z-A">Z-A</option>
-              <option value="id">Por ID</option>
-            </select>
-          </div>
+      {loading && <p>Carregando...</p>}
 
-          <div className="filter-container">
-            <label htmlFor="itemsPerPage">Itens por página: </label>
-            <select
-              className="order-select"
-              id="itemsPerPage"
-              value={gamesPerPage}
-              onChange={(e) => {
-                setGamesPerPage(Number(e.target.value));
-                setCurrentPage(1);
-              }}
-            >
-              <option value={24}>24</option>
-              <option value={48}>48</option>
-              <option value={72}>72</option>
-              <option value={96}>96</option>
-            </select>
-          </div>
-        </div>
-      )}
-
-      {!pesquisou && (
+      {!loading && !steamId && (
         <>
           <p className="intro-text">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam quidem
@@ -203,7 +62,7 @@ export function SearchGames() {
           <div className="games-grid">
             <div className="search-game-card">
               <img
-                src="../../../public/Firegirlbw.png"
+                src="/Firegirlbw.png"
                 alt="Arte de Firegirl"
                 className="search-game-img"
               />
@@ -211,7 +70,7 @@ export function SearchGames() {
             </div>
             <div className="search-game-card">
               <img
-                src="../../../public/cat.png"
+                src="/cat.png"
                 alt="Arte de um gato"
                 className="search-game-img"
               />
@@ -219,7 +78,7 @@ export function SearchGames() {
             </div>
             <div className="search-game-card">
               <img
-                src="../../../public/foxbw.png"
+                src="/foxbw.png"
                 alt="Arte de uma raposa"
                 className="search-game-img"
               />
@@ -229,34 +88,23 @@ export function SearchGames() {
         </>
       )}
 
-      {pesquisou && (
+      {!loading && steamId && (
         <>
-          <div className="games-grid">
-            {games.length === 0 ? (
-              <p className="loading">Nenhum jogo encontrado.</p>
-            ) : (
-              jogosNaPaginaAtual.map((game) => (
-                <GameCard key={game.appid} game={game} />
-              ))
-            )}
-          </div>
-          <div className="pagination-controls">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-            >
-              Anterior
-            </button>
-            {renderPageButtons()}
-            <button
-              onClick={() =>
-                setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-              }
-              disabled={currentPage === totalPages}
-            >
-              Próximo
-            </button>
-          </div>
+          <Filters
+            orderOption={orderOption}
+            onOrderChange={setOrderOption}
+            gamesPerPage={gamesPerPage}
+            onGamesPerPageChange={setGamesPerPage}
+            totalGames={games.length}
+          />
+
+          <GamesGrid games={jogosNaPaginaAtual} />
+
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </>
       )}
     </>
