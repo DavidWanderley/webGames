@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 .home-container {
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -61,13 +63,6 @@
 
 .cta-section button:hover {
   background-color: #939393ff;
-}
-
-.categories {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  margin-top: 20px;
 }
 
 .category-card {

@@ -22,8 +22,8 @@ export function Home() {
         <h2 className="cta-destaque">🔥 Destaque</h2>
       </section>
 
-      <section className="categories">
-        <div className="category-card">
+      <section className="grid grid-cols-3 gap-4 mt-5">
+        <div className="category-card bg-gray-200 p-4 rounded">
           <h3>Lorem ipsum</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
@@ -32,7 +32,7 @@ export function Home() {
             incidunt quae quas!.
           </p>
         </div>
-        <div className="category-card">
+        <div className="category-card bg-gray-200 p-4 rounded">
           <h3>Lorem ipsum</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
@@ -41,7 +41,7 @@ export function Home() {
             incidunt quae quas!.
           </p>
         </div>
-        <div className="category-card">
+        <div className="category-card bg-gray-200 p-4 rounded">
           <h3>Lorem ipsum</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
@@ -51,7 +51,7 @@ export function Home() {
           </p>
         </div>
 
-        <div className="category-card">
+        <div className="category-card bg-gray-200 p-4 rounded">
           <h3>Lorem ipsum</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
@@ -60,7 +60,7 @@ export function Home() {
             incidunt quae quas!.
           </p>
         </div>
-        <div className="category-card">
+        <div className="category-card bg-gray-200 p-4 rounded">
           <h3>Lorem ipsum</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
@@ -69,25 +69,7 @@ export function Home() {
             incidunt quae quas!.
           </p>
         </div>
-        <div className="category-card">
-          <h3>Lorem ipsum</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
-            accusamus natus, pariatur dignissimos, fugiat, veritatis minus porro
-            dolorem atque quod cum minima labore nesciunt voluptas quidem
-            incidunt quae quas!.
-          </p>
-        </div>
-        <div className="category-card">
-          <h3>Lorem ipsum</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
-            accusamus natus, pariatur dignissimos, fugiat, veritatis minus porro
-            dolorem atque quod cum minima labore nesciunt voluptas quidem
-            incidunt quae quas!.
-          </p>
-        </div>
-        <div className="category-card">
+        <div className="category-card bg-gray-200 p-4 rounded">
           <h3>Lorem ipsum</h3>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum ab
