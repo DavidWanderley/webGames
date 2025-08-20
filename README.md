@@ -40,17 +40,16 @@ Um projeto de um blog de jogos criado com React + Vite (frontend) e Node.js + Ex
 
 ```sh
 cd backend
-pnpm install
 # Crie o arquivo .env e adicione sua chave Steam:
 # STEAM_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxx
-pnpm start
+node index.js
 ```
 
 ### 2. Frontend
 
 ```sh
 pnpm install
-pnpm run dev
+pnpm dev
 ```
 
 Acesse [http://localhost:5173](http://localhost:5173) para visualizar o frontend.
